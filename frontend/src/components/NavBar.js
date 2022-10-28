@@ -14,7 +14,7 @@ const NavBar = ({ user }) => {
       >
         <Box>
           {/* add link after making home page based on user auth */}
-          <Link>
+          <Link to="/">
             <Image
               src={logo}
               h="3rem"
