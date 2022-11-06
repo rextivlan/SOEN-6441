@@ -8,12 +8,15 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Creds = ({ register }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
-    userName: "",
+    name: "",
   });
 
   const handleChange = (e) => {
@@ -23,28 +26,38 @@ const Creds = ({ register }) => {
     }));
   };
 
-  const sendRegister = (e) => {
-    // e.preventDefault();
-    // axios
-    //   .post("/api/users/register", user)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+  const sendRegister = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/users/register",
+        user
+      );
+      console.log(response.data);
+      if (response) {
+        JSON.stringify(localStorage.setItem("user", response.data));
+        navigate(`/dashboard/${response.data.token}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const sendLogin = (e) => {
-    // e.preventDefault();
-    // axios
-    //   .post("/api/users/login", user)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+  const sendLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/users/login",
+        user
+      );
+      console.log(response.data.token);
+      if (response) {
+        JSON.stringify(localStorage.setItem("user", response.data.token));
+        navigate(`/dashboard/${response.data.token}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -68,9 +81,9 @@ const Creds = ({ register }) => {
               <Input
                 placeholder="Enter Username"
                 type="text"
-                name="userName"
+                name="name"
                 backgroundColor="white"
-                value={user.userName}
+                value={user.name}
                 onChange={handleChange}
               />
             ) : null}

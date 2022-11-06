@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import colors from "colors";
 import morgan from "morgan";
 import db from "./config/db.js";
+import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
@@ -12,6 +13,8 @@ dotenv.config();
 const app = express();
 
 app.use(morgan("dev"));
+
+app.use(cors());
 
 app.use(express.json({ extended: false }));
 

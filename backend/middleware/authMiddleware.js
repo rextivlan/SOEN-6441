@@ -10,7 +10,7 @@ const isAuth = async (req, res, next) => {
     ) {
       token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(process.env.JWT_SECRET, token);
-      req.user = await user.findByPk(decoded.id);
+      req.user = await user.findByPk(decoded.id).catch("-password");
       if (!req.user) {
         throw "user not found";
       }

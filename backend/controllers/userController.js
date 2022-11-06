@@ -36,12 +36,10 @@ const registerUser = async (req, res) => {
     } else {
       res.status(201).json({
         success: true,
-        user,
         token: generateToken(user.id),
       });
     }
   } catch (error) {
-
     console.log(error);
 
     if (error === "enter all fields") {
@@ -64,13 +62,12 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-
   try {
     const { email, password } = req.body;
     if (!email || !password) {
       throw "enter all fields";
     }
-    
+
     const user = await User.findOne({
       where: {
         email,
