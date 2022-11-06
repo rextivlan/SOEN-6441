@@ -29,7 +29,15 @@ const NavBar = ({ user }) => {
         <Spacer />
         {user ? (
           <Box display="flex">
-            <Button mt="1.5vh" mb="5px" mr="1rem">
+            <Button
+              mt="1.5vh"
+              mb="5px"
+              mr="1rem"
+              onClick={() => {
+                localStorage.clear();
+                navigate("/");
+              }}
+            >
               Logout
             </Button>
           </Box>
