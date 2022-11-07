@@ -97,6 +97,7 @@ const Creds = ({ register }) => {
             />
             <Input
               placeholder="Enter password"
+              type="password"
               name="password"
               value={user.password}
               backgroundColor="white"
