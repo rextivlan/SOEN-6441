@@ -1,26 +1,19 @@
+import mysql from "mysql2";
 import dotenv from "dotenv";
 dotenv.config();
-import { Sequelize } from "sequelize";
 
-const db = new Sequelize(
-  process.env.MYSQL_DATABASE,
-  process.env.MYSQL_USER,
-  process.env.MYSQL_PASSWORD,
-  {
-    host: process.env.MYSQL_HOST,
-    dialect: "mysql",
-  }
-);
+// Create a connection to the database
+const db = mysql.createConnection({
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+});
 
-(async () => {
-  try {
-    await db.authenticate();
-    console.log("Connection has been established successfully.");
-    //await db.sync({ force: true });
-    //console.log("Models were synced.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-})();
+// Establish the MySQL connection
+db.connect((error) => {
+  if (error) throw error;
+  console.log("Successfully connected to the database.");
+});
 
 export default db;

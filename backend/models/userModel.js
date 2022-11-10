@@ -1,37 +1,43 @@
-import db from "../config/db.js";
+import sql from "../config/db.js";
 import bcrypt from "bcrypt";
 
-var db_sequelize = db.Sequelize,
-  User = db.define(
-    "User",
-    {
-      id: {
-        type: db_sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      name: {
-        type: db_sequelize.STRING,
-      },
-      password: {
-        type: db_sequelize.STRING,
-        allowNull: true,
-      },
-      email: {
-        type: db_sequelize.STRING,
-      },
-    },
-    {
-      freezeTableName: true,
-      timestamps: false,
-      hooks: {
-        beforeCreate: async function (User) {
-          const salt = await bcrypt.genSaltSync(10);
-          User.password = await bcrypt.hashSync(User.password, salt);
-        },
-      },
-    }
-  );
+// constructor
+const User = function (user) {
+  this.name = user.name;
+  this.email = user.email;
+  this.password = user.password;
+};
 
+User.create = async (name, email, password) => {
+  let [users, _] = await sql
+    .promise()
+    .query(
+      `INSERT INTO user (name, password, email) VALUES ('${name}', '${password}', '${email}');`
+    );
+  return users;
+};
+
+User.getAll = async () => {
+  let [users, _] = await sql.promise().query("SELECT * FROM user");
+  return users;
+};
+
+// Get a specific user
+User.getByEmail = async (email) => {
+  let [users, _] = await sql
+    .promise()
+    .query(`SELECT * FROM user WHERE email like '${email}'`);
+  return users;
+};
+
+// Get user by email and password
+User.getByEmailAndPassword = async (email, password) => {
+  let [user, _] = await sql
+    .promise()
+    .query(
+      `SELECT * FROM user WHERE email like '${email}' AND password like'${password}'`
+    );
+  return user;
+};
 
 export default User;
