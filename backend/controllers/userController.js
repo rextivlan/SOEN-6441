@@ -15,19 +15,13 @@ const registerUser = async (req, res) => {
 
     console.log(email, password, name);
 
-    const userExists = await User.findOne({
-      where: { email },
-    });
-
-    if (userExists) {
+    const userExists = await User.getByEmail(email);
+    console.log(userExists);
+    if (userExists.length !== 0) {
       throw "user exists";
     }
 
-    const user = await User.create({
-      email,
-      password,
-      name,
-    });
+    const user = await User.create(name, email, password);
 
     console.log("user====>", user);
 
@@ -68,20 +62,14 @@ const loginUser = async (req, res) => {
       throw "enter all fields";
     }
 
-    const user = await User.findOne({
-      where: {
-        email,
-      },
-    });
-
-    if (user && bcrypt.compareSync(password, user.password)) {
-      res.status(200).json({
-        success: true,
-        token: generateToken(user.id),
-      });
-    } else {
-      throw "invalid credentials";
+    const user = await User.getByEmailAndPassword(email, password);
+    if (user.length === 0) {
+      throw "email and password does not match";
     }
+    res.status(200).json({
+      success: true,
+      token: generateToken(user[0].id),
+    });
   } catch (error) {
     console.log(error);
     res.status(400).json({
