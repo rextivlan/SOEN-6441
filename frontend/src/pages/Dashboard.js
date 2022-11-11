@@ -14,6 +14,7 @@ import {
 import Axios from "axios";
 
 function Dashboard() {
+  const email = localStorage.getItem("userEmail");
   const [videoid, setVideoID] = useState("");
 
   const [youtubeVideosList, setYouTubeVideosList] = useState([]);
@@ -21,23 +22,27 @@ function Dashboard() {
   const addYouTubeVideo = () => {
     Axios.post("http://localhost:8080/youtubevideos/create", {
       videoid: videoid,
-    })
+    });
   };
 
   const getYouTubeVideos = () => {
-    Axios.get("http://localhost:8080/youtubevideos/youtubevideos").then((response) => {
-      setYouTubeVideosList(response.data);
-    });
+    Axios.get("http://localhost:8080/youtubevideos/youtubevideos").then(
+      (response) => {
+        setYouTubeVideosList(response.data);
+      }
+    );
   };
 
   const deleteYouTubeVideo = (id) => {
-    Axios.delete(`http://localhost:8080/youtubevideos/delete/${id}`).then((response) => {
-      setYouTubeVideosList(
-        youtubeVideosList.filter((val) => {
-          return val.id != id;
-        })
-      );
-    });
+    Axios.delete(`http://localhost:8080/youtubevideos/delete/${id}`).then(
+      (response) => {
+        setYouTubeVideosList(
+          youtubeVideosList.filter((val) => {
+            return val.id != id;
+          })
+        );
+      }
+    );
   };
 
   return (
@@ -65,11 +70,19 @@ function Dashboard() {
                 setVideoID(event.target.value);
               }}
             />
-            <Button onClick={addYouTubeVideo} backgroundColor="red" color="white">
+            <Button
+              onClick={addYouTubeVideo}
+              backgroundColor="red"
+              color="white"
+            >
               Add YouTube Video
             </Button>
-            
-            <Button onClick={getYouTubeVideos} backgroundColor="red" color="white">
+
+            <Button
+              onClick={getYouTubeVideos}
+              backgroundColor="red"
+              color="white"
+            >
               Get Updated List
             </Button>
           </VStack>
@@ -92,7 +105,8 @@ function Dashboard() {
                   onClick={() => {
                     deleteYouTubeVideo(val.id);
                   }}
-                  backgroundColor="red" color="white"
+                  backgroundColor="red"
+                  color="white"
                 >
                   Delete
                 </Button>
