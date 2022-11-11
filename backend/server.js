@@ -5,6 +5,7 @@ import morgan from "morgan";
 import db from "./config/db.js";
 import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
+import youtubeVideoRoutes from "./routes/youtubeVideoRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
@@ -19,6 +20,8 @@ app.use(cors());
 app.use(express.json({ extended: false }));
 
 app.use("/users", userRoutes);
+
+app.use("/youtubevideos", youtubeVideoRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running");

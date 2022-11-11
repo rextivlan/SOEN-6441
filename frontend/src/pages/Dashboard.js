@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import "../App.css";
 import {
   Flex,
   Input,
@@ -10,20 +11,35 @@ import {
   Box,
   FormLabel,
 } from "@chakra-ui/react";
+import Axios from "axios";
 
-const Dashboard = ({ user }) => {
-  const navigate = useNavigate();
-  const [search, setSearch] = useState({
-    link: "",
-    name: "",
-  });
+function Dashboard() {
+  const [videoid, setVideoID] = useState("");
 
-  const handleChange = (e) => {
-    setSearch((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+  const [youtubeVideosList, setYouTubeVideosList] = useState([]);
+
+  const addYouTubeVideo = () => {
+    Axios.post("http://localhost:8080/youtubevideos/create", {
+      videoid: videoid,
+    })
   };
+
+  const getYouTubeVideos = () => {
+    Axios.get("http://localhost:8080/youtubevideos/youtubevideos").then((response) => {
+      setYouTubeVideosList(response.data);
+    });
+  };
+
+  const deleteYouTubeVideo = (id) => {
+    Axios.delete(`http://localhost:8080/youtubevideos/delete/${id}`).then((response) => {
+      setYouTubeVideosList(
+        youtubeVideosList.filter((val) => {
+          return val.id != id;
+        })
+      );
+    });
+  };
+
   return (
     <>
       <NavBar user={true} />
@@ -34,7 +50,7 @@ const Dashboard = ({ user }) => {
           borderColor="gray.200"
           borderRadius="6px"
           w="80vh"
-          h="70vh"
+          h="40vh"
         >
           <VStack spacing="20px" mt="12vh">
             <Flex w="80vh">
@@ -45,29 +61,48 @@ const Dashboard = ({ user }) => {
               type="text"
               w="60vh"
               name="link"
-              value={search.link}
-              onChange={handleChange}
+              onChange={(event) => {
+                setVideoID(event.target.value);
+              }}
             />
-            <Text>Or</Text>
-            <Flex w="80vh">
-              <FormLabel ml="10vh">Track using channel name</FormLabel>
-            </Flex>
-            <Input
-              type="text"
-              placeholder="Enter a channel name"
-              w="60vh"
-              name="name"
-              value={search.name}
-              onChange={handleChange}
-            />
-            <Button backgroundColor="red" color="white">
-              Submit
+            <Button onClick={addYouTubeVideo} backgroundColor="red" color="white">
+              Add YouTube Video
+            </Button>
+            
+            <Button onClick={getYouTubeVideos} backgroundColor="red" color="white">
+              Get Updated List
             </Button>
           </VStack>
         </Flex>
       </Flex>
+
+      <div class="youtubevideolist">
+        {youtubeVideosList.map((val, key) => {
+          return (
+            <div class="youtubevideo">
+              <div>
+                <h3>https://www.youtube.com/watch?v={val.videoid}</h3>
+                <h3>Title: {val.title}</h3>
+                <h3>Channel Title: {val.channelTitle}</h3>
+                <h3>Language: {val.defaultAudioLanguage}</h3>
+                <h3>Published at: {val.publishedAt.substring(0, 10)}</h3>
+              </div>
+              <div>
+                <Button
+                  onClick={() => {
+                    deleteYouTubeVideo(val.id);
+                  }}
+                  backgroundColor="red" color="white"
+                >
+                  Delete
+                </Button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
-};
+}
 
 export default Dashboard;
