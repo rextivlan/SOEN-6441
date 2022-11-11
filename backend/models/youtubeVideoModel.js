@@ -5,8 +5,8 @@ const YouTubeVideo = function(youtubevideo) {
   this.title = youtubevideo.title;
   this.channelTitle = youtubevideo.channelTitle;
   this.defaultAudioLanguage = youtubevideo.defaultAudioLanguage;
-
   this.publishedAt = new Date(youtubevideo.publishedAt).toISOString().substring(0, 10);
+  this.email = youtubevideo.email;
 };
 
 YouTubeVideo.create = (newYouTubeVideo, result) => {
@@ -22,8 +22,8 @@ YouTubeVideo.create = (newYouTubeVideo, result) => {
   });
 };
 
-YouTubeVideo.getAll = result => {
-  sql.query("SELECT * FROM youtubevideos", (err, res) => {
+YouTubeVideo.getAll = (email, result) => {
+  sql.query(`SELECT * FROM youtubevideos WHERE email = ?`, email, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);

@@ -26,7 +26,8 @@ export const createYouTubeVideo = async (req, res) => {
     title: req.body.title,
     channelTitle: req.body.channelTitle,
     defaultAudioLanguage: req.body.defaultAudioLanguage,
-    publishedAt: req.body.publishedAt
+    publishedAt: req.body.publishedAt,
+    email: req.body.email
   });
 
   YouTubeVideo.create(youtubevideo, (err, data) => {
@@ -40,7 +41,7 @@ export const createYouTubeVideo = async (req, res) => {
 };
 
 export const findAllYouTubeVideos = (req, res) => {
-  YouTubeVideo.getAll((err, data) => {
+  YouTubeVideo.getAll(req.params.email, (err, data) => {
     if (err)
       res.status(500).send({
         message:
