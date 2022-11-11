@@ -53,6 +53,7 @@ const Creds = ({ register }) => {
       console.log(response.data.token);
       if (response) {
         JSON.stringify(localStorage.setItem("user", response.data.token));
+        JSON.stringify(localStorage.setItem("userEmail", user.email));
         navigate(`/dashboard/${response.data.token}`);
       }
     } catch (error) {
