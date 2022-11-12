@@ -15,7 +15,10 @@ import Axios from "axios";
 
 function Dashboard() {
   const email = localStorage.getItem("userEmail");
+
   const id = localStorage.getItem("userID");
+  const emailConverted = String(email);
+
   const [videoid, setVideoID] = useState("");
 
   const [youtubeVideosList, setYouTubeVideosList] = useState([]);
@@ -23,11 +26,12 @@ function Dashboard() {
   const addYouTubeVideo = () => {
     Axios.post("http://localhost:8080/youtubevideos/create", {
       videoid: videoid,
+      email: email
     });
   };
 
-  const getYouTubeVideos = () => {
-    Axios.get("http://localhost:8080/youtubevideos/youtubevideos").then(
+  const getYouTubeVideos = (email) => {
+    Axios.get(`http://localhost:8080/youtubevideos/youtubevideos/${emailConverted}`).then(
       (response) => {
         setYouTubeVideosList(response.data);
       }
