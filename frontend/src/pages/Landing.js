@@ -17,7 +17,7 @@ const Landing = () => {
               <Image src={logo} w="30vh" />
             </HStack>
             <Text fontSize="5vh">
-              Use this application to track various YouTube playlists!
+              Use this application to track various YouTube videos!
             </Text>
           </VStack>
         </Flex>
