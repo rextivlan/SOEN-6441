@@ -2,15 +2,14 @@ import YouTubeVideo from "../models/youtubeVideoModel.js";
 import axios from "axios";
 
 export const createYouTubeVideo = async (req, res) => {
- 
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!"
+      message: "Content can not be empty!",
     });
   }
 
-  const apiKey = "AIzaSyAZcMOK7ZgkSmVGKsm0Qta940E_HtbEB74";
-  const apiUrl = "https://www.googleapis.com/youtube/v3";
+  const apiKey = process.env.YOUTUBE_API_KEY;
+  const apiUrl = process.env.YOUTUBE_URL;
 
   const url = `${apiUrl}/videos?id=${req.body.videoid}&key=${apiKey}&part=snippet`;
 
@@ -18,7 +17,8 @@ export const createYouTubeVideo = async (req, res) => {
 
   req.body.title = response.data.items[0].snippet.title;
   req.body.channelTitle = response.data.items[0].snippet.channelTitle;
-  req.body.defaultAudioLanguage = response.data.items[0].snippet.defaultAudioLanguage;
+  req.body.defaultAudioLanguage =
+    response.data.items[0].snippet.defaultAudioLanguage;
   req.body.publishedAt = response.data.items[0].snippet.publishedAt;
 
   const youtubevideo = new YouTubeVideo({
@@ -27,42 +27,53 @@ export const createYouTubeVideo = async (req, res) => {
     channelTitle: req.body.channelTitle,
     defaultAudioLanguage: req.body.defaultAudioLanguage,
     publishedAt: req.body.publishedAt,
-    userid: req.body.userid
+    userid: req.body.userid,
   });
 
   YouTubeVideo.create(youtubevideo, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the YouTube video."
+          err.message ||
+          "Some error occurred while creating the YouTube video.",
       });
     else res.send(data);
   });
 };
 
-export const findAllYouTubeVideos = (req, res) => {
-  YouTubeVideo.getAll(req.params.userid, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving the YouTube videos."
-      });
-    else res.send(data);
-  });
+export const findAllYouTubeVideos = async (req, res) => {
+  try {
+    const userid = req.params.userid;
+    console.log(userid);
+    const videos = await YouTubeVideo.getAll(userid);
+    console.log(videos);
+    if (videos.length === 0) {
+      throw "Some error occurred while retrieving the YouTube videos.";
+    }
+    res.status(200).send(videos);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error,
+    });
+  }
 };
 
-export const deleteYouTubeVideo = (req, res) => {
-  YouTubeVideo.remove(req.params.youtubevideoid, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found YouTubeVideo with id ${req.params.youtubevideoid}.`
-        });
-      } else {
-        res.status(500).send({
-          message: "Could not delete YouTubeVideo with id " + req.params.youtubevideoid
-        });
-      }
-    } else res.send({ message: `YouTubeVideo was deleted successfully!` });
-  });
+export const deleteYouTubeVideo = async (req, res) => {
+  try {
+    const videoid = req.params.youtubevideoid;
+    const msg = await YouTubeVideo.remove(videoid);
+    if (msg === "Not_found") {
+      res.status(404).json({
+        error: `Not found YouTubeVideo with id ${videoid}`,
+      });
+    }
+    res.status(202).send({ message: "YouTubeVideo was deleted successfully!" });
+    console.log("deleted youtube video with id: ", videoid);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: `Could not delete YouTubeVideo with id ${videoid}`,
+    });
+  }
 };
