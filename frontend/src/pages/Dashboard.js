@@ -16,9 +16,8 @@ import Axios from "axios";
 function Dashboard() {
   const email = localStorage.getItem("userEmail");
 
-  const id = localStorage.getItem("userID");
-  const emailConverted = String(email);
-
+  const userid = localStorage.getItem("userID");
+  
   const [videoid, setVideoID] = useState("");
 
   const [youtubeVideosList, setYouTubeVideosList] = useState([]);
@@ -26,24 +25,24 @@ function Dashboard() {
   const addYouTubeVideo = () => {
     Axios.post("http://localhost:8080/youtubevideos/create", {
       videoid: videoid,
-      email: email
+      userid: userid
     });
   };
 
-  const getYouTubeVideos = (email) => {
-    Axios.get(`http://localhost:8080/youtubevideos/youtubevideos/${emailConverted}`).then(
+  const getYouTubeVideos = () => {
+    Axios.get(`http://localhost:8080/youtubevideos/youtubevideos/${userid}`).then(
       (response) => {
         setYouTubeVideosList(response.data);
       }
     );
   };
 
-  const deleteYouTubeVideo = (id) => {
-    Axios.delete(`http://localhost:8080/youtubevideos/delete/${id}`).then(
+  const deleteYouTubeVideo = (youtubevideoid) => {
+    Axios.delete(`http://localhost:8080/youtubevideos/delete/${youtubevideoid}`).then(
       (response) => {
         setYouTubeVideosList(
           youtubeVideosList.filter((val) => {
-            return val.id !== id;
+            return val.youtube_video_id !== youtubevideoid;
           })
         );
       }
@@ -99,16 +98,16 @@ function Dashboard() {
           return (
             <div class="youtubevideo">
               <div>
-                <h3>https://www.youtube.com/watch?v={val.videoid}</h3>
+                <h3>https://www.youtube.com/watch?v={val.video_id}</h3>
                 <h3>Title: {val.title}</h3>
-                <h3>Channel Title: {val.channelTitle}</h3>
-                <h3>Language: {val.defaultAudioLanguage}</h3>
-                <h3>Published at: {val.publishedAt.substring(0, 10)}</h3>
+                <h3>Channel Title: {val.channel_title}</h3>
+                <h3>Language: {val.default_audio_language}</h3>
+                <h3>Published at: {val.published_at.substring(0, 10)}</h3>
               </div>
               <div>
                 <Button
                   onClick={() => {
-                    deleteYouTubeVideo(val.id);
+                    deleteYouTubeVideo(val.youtube_video_id);
                   }}
                   backgroundColor="red"
                   color="white"

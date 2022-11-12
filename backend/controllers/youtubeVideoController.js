@@ -27,7 +27,7 @@ export const createYouTubeVideo = async (req, res) => {
     channelTitle: req.body.channelTitle,
     defaultAudioLanguage: req.body.defaultAudioLanguage,
     publishedAt: req.body.publishedAt,
-    email: req.body.email
+    userid: req.body.userid
   });
 
   YouTubeVideo.create(youtubevideo, (err, data) => {
@@ -41,7 +41,7 @@ export const createYouTubeVideo = async (req, res) => {
 };
 
 export const findAllYouTubeVideos = (req, res) => {
-  YouTubeVideo.getAll(req.params.email, (err, data) => {
+  YouTubeVideo.getAll(req.params.userid, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -52,15 +52,15 @@ export const findAllYouTubeVideos = (req, res) => {
 };
 
 export const deleteYouTubeVideo = (req, res) => {
-  YouTubeVideo.remove(req.params.youtubeVideoId, (err, data) => {
+  YouTubeVideo.remove(req.params.youtubevideoid, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found YouTubeVideo with id ${req.params.youtubeVideoId}.`
+          message: `Not found YouTubeVideo with id ${req.params.youtubevideoid}.`
         });
       } else {
         res.status(500).send({
-          message: "Could not delete YouTubeVideo with id " + req.params.youtubeVideoId
+          message: "Could not delete YouTubeVideo with id " + req.params.youtubevideoid
         });
       }
     } else res.send({ message: `YouTubeVideo was deleted successfully!` });

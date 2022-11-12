@@ -1,12 +1,12 @@
 import sql from "../config/db.js";
 
 const YouTubeVideo = function(youtubevideo) {
-  this.videoid = youtubevideo.videoid;
+  this.video_id = youtubevideo.videoid;
   this.title = youtubevideo.title;
-  this.channelTitle = youtubevideo.channelTitle;
-  this.defaultAudioLanguage = youtubevideo.defaultAudioLanguage;
-  this.publishedAt = new Date(youtubevideo.publishedAt).toISOString().substring(0, 10);
-  this.email = youtubevideo.email;
+  this.channel_title = youtubevideo.channelTitle;
+  this.default_audio_language = youtubevideo.defaultAudioLanguage;
+  this.published_at = new Date(youtubevideo.publishedAt).toISOString().substring(0, 10);
+  this.submitted_by = youtubevideo.userid;
 };
 
 YouTubeVideo.create = (newYouTubeVideo, result) => {
@@ -22,8 +22,8 @@ YouTubeVideo.create = (newYouTubeVideo, result) => {
   });
 };
 
-YouTubeVideo.getAll = (email, result) => {
-  sql.query(`SELECT * FROM youtubevideos WHERE email = ?`, email, (err, res) => {
+YouTubeVideo.getAll = (userid, result) => {
+  sql.query(`SELECT * FROM youtubevideos WHERE submitted_by = ?`, userid, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -35,8 +35,8 @@ YouTubeVideo.getAll = (email, result) => {
   });
 };
 
-YouTubeVideo.remove = (id, result) => {
-  sql.query("DELETE FROM youtubevideos WHERE id = ?", id, (err, res) => {
+YouTubeVideo.remove = (youtubevideoid, result) => {
+  sql.query("DELETE FROM youtubevideos WHERE youtube_video_id = ?", youtubevideoid, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -48,7 +48,7 @@ YouTubeVideo.remove = (id, result) => {
       return;
     }
 
-    console.log("deleted youtube video with id: ", id);
+    console.log("deleted youtube video with id: ", youtubevideoid);
     result(null, res);
   });
 };

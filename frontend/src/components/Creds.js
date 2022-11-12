@@ -54,7 +54,7 @@ const Creds = ({ register }) => {
       if (response) {
         JSON.stringify(localStorage.setItem("user", response.data.token));
         JSON.stringify(localStorage.setItem("userEmail", user.email));
-        JSON.stringify(localStorage.setItem("userID", response.data.id));
+        JSON.stringify(localStorage.setItem("userID", response.data.user_id));
         navigate(`/dashboard/${response.data.token}`);
       }
     } catch (error) {

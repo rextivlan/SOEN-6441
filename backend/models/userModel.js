@@ -12,13 +12,13 @@ User.create = async (name, email, password) => {
   let [users, _] = await sql
     .promise()
     .query(
-      `INSERT INTO user (name, password, email) VALUES ('${name}', '${password}', '${email}');`
+      `INSERT INTO users (name, password, email) VALUES ('${name}', '${password}', '${email}');`
     );
   return users;
 };
 
 User.getAll = async () => {
-  let [users, _] = await sql.promise().query("SELECT * FROM user");
+  let [users, _] = await sql.promise().query("SELECT * FROM users");
   return users;
 };
 
@@ -26,7 +26,7 @@ User.getAll = async () => {
 User.getByEmail = async (email) => {
   let [users, _] = await sql
     .promise()
-    .query(`SELECT * FROM user WHERE email like '${email}'`);
+    .query(`SELECT * FROM users WHERE email like '${email}'`);
   return users;
 };
 
@@ -35,7 +35,7 @@ User.getByEmailAndPassword = async (email, password) => {
   let [user, _] = await sql
     .promise()
     .query(
-      `SELECT * FROM user WHERE email like '${email}' AND password like'${password}'`
+      `SELECT * FROM users WHERE email like '${email}' AND password like'${password}'`
     );
   return user;
 };
