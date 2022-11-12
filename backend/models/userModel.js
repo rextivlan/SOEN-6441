@@ -1,5 +1,4 @@
 import sql from "../config/db.js";
-import bcrypt from "bcrypt";
 
 // constructor
 const User = function (user) {
