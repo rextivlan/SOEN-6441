@@ -15,6 +15,7 @@ import Axios from "axios";
 
 function Dashboard() {
   const email = localStorage.getItem("userEmail");
+  const id = localStorage.getItem("userID");
   const [videoid, setVideoID] = useState("");
 
   const [youtubeVideosList, setYouTubeVideosList] = useState([]);
@@ -38,7 +39,7 @@ function Dashboard() {
       (response) => {
         setYouTubeVideosList(
           youtubeVideosList.filter((val) => {
-            return val.id != id;
+            return val.id !== id;
           })
         );
       }
@@ -59,7 +60,7 @@ function Dashboard() {
         >
           <VStack spacing="20px" mt="12vh">
             <Flex w="80vh">
-              <FormLabel ml="10vh">Track using playlists link</FormLabel>
+              <FormLabel ml="10vh">Track using a video link</FormLabel>
             </Flex>
             <Input
               placeholder="https://www.youtube.com"
