@@ -44,9 +44,7 @@ export const createYouTubeVideo = async (req, res) => {
 export const findAllYouTubeVideos = async (req, res) => {
   try {
     const userid = req.params.userid;
-    console.log(userid);
     const videos = await YouTubeVideo.getAll(userid);
-    console.log(videos);
     if (videos.length === 0) {
       throw "Some error occurred while retrieving the YouTube videos.";
     }
