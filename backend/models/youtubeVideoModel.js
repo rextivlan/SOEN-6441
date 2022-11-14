@@ -1,7 +1,7 @@
 import sql from "../config/db.js";
 
 class YouTubeVideo {
-  //YouTube Video Constructor
+  // YouTube Video Constructor
   constructor(youtubevideo) {
     this.video_id = youtubevideo.videoid;
     this.title = youtubevideo.title;
