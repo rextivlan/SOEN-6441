@@ -28,9 +28,9 @@ describe("Integration test for the youtubeVideo API", () => {
     userid: 3,
   };
   // Test Suite - 2 Store YouTube Video in Database
-  it("POST /youtubevideos/create - success - create youtube video", async () => {
+  it("POST /youtubevideos/add - success - create youtube video", async () => {
     const { body } = await request(app)
-      .post("/youtubevideos/create")
+      .post("/youtubevideos/add")
       .send(payload)
       .set("Content-Type", "application/json")
       .set("Accept", "application/json");
