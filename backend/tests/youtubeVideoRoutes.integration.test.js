@@ -8,7 +8,7 @@ const app = require("../app");
 // Describing Tests
 describe("Integration test for the youtubeVideo API", () => {
   // Test Suite - 1 Get YouTube Videos by userID
-  it("GET /youtubevideos/youtubevideos/:userid - success - get youtubeVideos by userID", async () => {
+  it("GET /youtubevideos/youtubevideos/:userid - success - get youtube videos by userID", async () => {
     const { body, statusCode } = await request(app).get(
       "/youtubevideos/youtubevideos/1"
     );
@@ -28,7 +28,7 @@ describe("Integration test for the youtubeVideo API", () => {
     userid: 3,
   };
   // Test Suite - 2 Store YouTube Video in Database
-  it("POST /youtubevideos/create - success - create youtubeVideo", async () => {
+  it("POST /youtubevideos/create - success - create youtube video", async () => {
     const { body } = await request(app)
       .post("/youtubevideos/create")
       .send(payload)
