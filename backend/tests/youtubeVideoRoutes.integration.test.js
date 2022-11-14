@@ -42,12 +42,12 @@ describe("Integration test for the youtubeVideo API", () => {
   });
 
   // Test Suite - 3 Delete YouTube Video by videoID
-  it("DELETE /youtubevideos/delete/:youtubevideoid - success - delete youtubeVideo", async () => {
+  it("DELETE /youtubevideos/delete/:youtubevideoid - success - delete youtube video", async () => {
     const { body, statusCode } = await request(app).delete(
       "/youtubevideos/delete/6"
     );
 
-    expect(body.message).toEqual("YouTubeVideo was deleted successfully!");
+    expect(body.message).toEqual("YouTube video was deleted successfully!");
     expect(statusCode).toBe(202);
   });
 });

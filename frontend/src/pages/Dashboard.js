@@ -23,7 +23,7 @@ function Dashboard() {
   const [youtubeVideosList, setYouTubeVideosList] = useState([]);
 
   const addYouTubeVideo = () => {
-    Axios.post("http://localhost:8080/youtubevideos/create", {
+    Axios.post("http://localhost:8080/youtubevideos/add", {
       videoid: videoid,
       userid: userid
     });

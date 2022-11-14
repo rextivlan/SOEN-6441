@@ -12,7 +12,7 @@ const YouTubeVideo = function (youtubevideo) {
   this.submitted_by = youtubevideo.userid;
 };
 
-YouTubeVideo.create = (newYouTubeVideo, result) => {
+YouTubeVideo.add = (newYouTubeVideo, result) => {
   sql.query("INSERT INTO youtubevideos SET ?", newYouTubeVideo, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -20,7 +20,7 @@ YouTubeVideo.create = (newYouTubeVideo, result) => {
       return;
     }
 
-    console.log("created youtube video: ", {
+    console.log("added youtube video: ", {
       id: res.insertId,
       ...newYouTubeVideo,
     });
@@ -28,7 +28,7 @@ YouTubeVideo.create = (newYouTubeVideo, result) => {
   });
 };
 
-YouTubeVideo.getAll = async (userid) => {
+YouTubeVideo.getUserVideos = async (userid) => {
   let [videos, _] = await sql
     .promise()
     .query(`SELECT * FROM youtubevideos WHERE submitted_by = ${userid}`);

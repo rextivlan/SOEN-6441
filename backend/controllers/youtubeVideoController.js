@@ -1,7 +1,7 @@
 import YouTubeVideo from "../models/youtubeVideoModel.js";
 import axios from "axios";
 
-export const createYouTubeVideo = async (req, res) => {
+export const addYouTubeVideo = async (req, res) => {
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
@@ -30,21 +30,21 @@ export const createYouTubeVideo = async (req, res) => {
     userid: req.body.userid,
   });
 
-  YouTubeVideo.create(youtubevideo, (err, data) => {
+  YouTubeVideo.add(youtubevideo, (err, data) => {
     if (err)
       res.status(500).send({
         message:
           err.message ||
-          "Some error occurred while creating the YouTube video.",
+          "Some error occurred while adding the YouTube video.",
       });
     else res.send(data);
   });
 };
 
-export const findAllYouTubeVideos = async (req, res) => {
+export const getAllUserYouTubeVideos = async (req, res) => {
   try {
     const userid = req.params.userid;
-    const videos = await YouTubeVideo.getAll(userid);
+    const videos = await YouTubeVideo.getUserVideos(userid);
     if (videos.length === 0) {
       throw "Some error occurred while retrieving the YouTube videos.";
     }
@@ -63,15 +63,15 @@ export const deleteYouTubeVideo = async (req, res) => {
     const msg = await YouTubeVideo.remove(videoid);
     if (msg === "Not_found") {
       res.status(404).json({
-        error: `Not found YouTubeVideo with id ${videoid}`,
+        error: `Not found YouTube video with id ${videoid}`,
       });
     }
-    res.status(202).send({ message: "YouTubeVideo was deleted successfully!" });
+    res.status(202).send({ message: "YouTube video was deleted successfully!" });
     console.log("deleted youtube video with id: ", videoid);
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      error: `Could not delete YouTubeVideo with id ${videoid}`,
+      error: `Could not delete YouTube video with id ${videoid}`,
     });
   }
 };
