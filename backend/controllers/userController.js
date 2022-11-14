@@ -1,6 +1,5 @@
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
-import bcrypt from "bcrypt";
 
 // @desc    Register a new user
 // @route   POST /api/users
