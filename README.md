@@ -12,7 +12,7 @@ MYSQL_PASSWORD = your mysql password\
 MYSQL_HOST = localhost\
 JWT_SECRET = any secret text\
 PORT = 8080\
-YOUTUBE_API_KEY = your youtube api key
+YOUTUBE_API_KEY = your youtube api key\
 YOUTUBE_URL = https://www.googleapis.com/youtube/v3
 
 ## Install Dependencies
