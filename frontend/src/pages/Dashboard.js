@@ -63,10 +63,10 @@ function Dashboard() {
         >
           <VStack spacing="20px" mt="12vh">
             <Flex w="80vh">
-              <FormLabel ml="10vh">Track using a YouTube video ID like 4yjRIcRc9qY</FormLabel>
+              <FormLabel ml="10vh">Track using a YouTube video ID</FormLabel>
             </Flex>
             <Input
-              placeholder="https://www.youtube.com"
+              placeholder="Example 4yjRIcRc9qY from https://www.youtube.com/watch?v=4yjRIcRc9qY"
               type="text"
               w="60vh"
               name="link"
