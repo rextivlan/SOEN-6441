@@ -66,7 +66,7 @@ function Dashboard() {
               <FormLabel ml="10vh">Track using a YouTube video ID</FormLabel>
             </Flex>
             <Input
-              placeholder="Example 4yjRIcRc9qY from https://www.youtube.com/watch?v=4yjRIcRc9qY"
+              placeholder="For example 4yjRIcRc9qY"
               type="text"
               w="60vh"
               name="link"
