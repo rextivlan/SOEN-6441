@@ -2,6 +2,8 @@
 
 Use this application to track various YouTube videos!
 
+[Link to Project Presentation](https://drive.google.com/file/d/10JcuQ_7wba7cNiASzAYbSRkyem7XlfaT/view?usp=sharing)
+
 ## Env Variables
 
 Create a .env file in the root of backend folder and add the following\
